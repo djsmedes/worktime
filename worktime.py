@@ -64,9 +64,13 @@ def main():
         try:
             next_row_datetime, _ = parse_row(values[index + 1])
         except IndexError:
-            continue
+            if row_datetime.date() == today:
+                dur_seconds = (datetime.now() - row_datetime).total_seconds()
+            else:
+                continue
+        else:
+            dur_seconds = (next_row_datetime - row_datetime).total_seconds()
 
-        dur_seconds = (next_row_datetime - row_datetime).total_seconds()
         dur_hours = dur_seconds / 3600
         data_dict[row_datetime.date()][work_mode] += dur_hours
 
